@@ -14,7 +14,7 @@ export default function Notes() {
       <Text style={ styles.subheading }>Capture your thoughts anytime, anywhere</Text>
       <TouchableOpacity 
          style={ styles.button }
-         onPress={() => router.push('/notes')}
+         onPress={() => router.push('/(auth)/login')}
       >
         <Text style={ styles.buttonText } >Get Statrted</Text>
       </TouchableOpacity>
