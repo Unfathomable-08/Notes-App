@@ -1,10 +1,7 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import postItImage from "@/assets/images/post-it.png";
-import { useRouter } from "expo-router";
 
-export default function Notes() {
-  const router = useRouter()
-
+export default function Index() {
   return (
     <View
       style={ styles.container }
@@ -13,10 +10,8 @@ export default function Notes() {
       <Text style={ styles.heading }>Welcome to Notes App</Text>
       <Text style={ styles.subheading }>Capture your thoughts anytime, anywhere</Text>
       <TouchableOpacity 
-         style={ styles.button }
-         onPress={() => router.push('/notes')}
       >
-        <Text style={ styles.buttonText } >Get Statrted</Text>
+        <Text>Get Statrted</Text>
       </TouchableOpacity>
     </View>
   );
@@ -44,16 +39,5 @@ const styles = StyleSheet.create({
     color: '#666',
     textAlign: 'center',
     marginBottom: 20,
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold'
   }
 })
