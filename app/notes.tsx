@@ -1,14 +1,29 @@
 import { Text, View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons'
+import axios from "axios"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export default function Index() {
-  const [notes, setNotes] = useState([
-    { id: 1, title: 'First Note' },
-    { id: 2, title: 'Second Note' },
-    { id: 3, title: 'Third Note' },
-    { id: 4, title: 'Fourth Note' }
-  ])
+  const [notes, setNotes] = useState([])
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken')
+        
+        const response = await axios.get('http://localhost:8080/api/notes', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        setNotes(response.data.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchNotes()
+  }, [])
   
   return (
     <View

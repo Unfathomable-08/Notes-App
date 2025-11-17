@@ -1,13 +1,44 @@
 import { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { useRouter } from 'expo-router'
+import axios from 'axios'
 
 export default function Login(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  
   const router = useRouter()
 
-  const handleLogin = () => {}
+  const handleLogin = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.post('http://localhost:8080/api/user/login', {
+        email,
+        password
+      })
+
+      if (response.data.success){
+        const token = response.data.token
+        localStorage.setItem('token', token)
+        
+        console.log(response.data)
+        router.push('/')
+      }
+      else {
+        setError(response.data.message || 'Login failed')
+        alert('Login failed. Please try again.')
+      }
+    }
+    catch (error: any) {
+      console.error(error)
+      setError(error.response?.data?.message || 'Login failed')
+    }
+    finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <View style={ styles.container }>
@@ -46,6 +77,10 @@ export default function Login(){
       <TouchableOpacity onPress={ () => router.push('/(auth)/forgot-password') }>
         <Text style={ styles.link }>Forgot Password?</Text>
       </TouchableOpacity>
+      
+      { error && <Text style={{ color: 'red', textAlign: 'center' }}>{ error }</Text> }
+      { loading && <Text style={{ textAlign: 'center' }}>Loading...</Text> }
+      
      </View>
   )
 }

@@ -1,14 +1,50 @@
 import { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { useRouter } from 'expo-router'
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Login(){
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  
   const router = useRouter()
 
-  const handleLogin = () => {}
+  const handleLogin = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.post('http://localhost:8080/api/user/register', {
+        username: name,
+        email,
+        password
+      })
+      
+      if (response.data.success){
+        const token = response.data.token
+
+        await AsyncStorage.setItem('userToken', token);
+        
+        console.log(response.data)
+        router.push('/(auth)/login')
+      }
+      else {
+        setError(response.data.message || 'Registration failed')
+        console.log(response.data)
+      }
+    }
+    catch (error: any) {
+      console.error(error)
+      setError(error.response?.data?.message || 'Registration failed')
+      console.log(error)
+      alert('Registration failed. Please try again.')
+    } 
+    finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <View style={ styles.container }>
@@ -53,6 +89,10 @@ export default function Login(){
               <Text style={ styles.socialButtonText }>Continue with Facebook</Text>
             </TouchableOpacity>
        </View>
+
+      { error && <Text style={{ color: 'red', textAlign: 'center' }}>{ error }</Text> }
+      { loading && <Text style={{ textAlign: 'center' }}>Loading...</Text> }
+      
      </View>
   )
 }
