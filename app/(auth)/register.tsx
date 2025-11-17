@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { useRouter } from 'expo-router'
 
 export default function Login(){
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
@@ -11,7 +12,16 @@ export default function Login(){
 
   return (
     <View style={ styles.container }>
-      <Text style={ styles.title }>Login</Text>
+      <Text style={ styles.title }>Register</Text>
+
+      <TextInput
+        style={ styles.input }
+        placeholder='Name'
+        value={ name }
+        onChangeText={ setName }
+        keyboardType='default'
+        autoCapitalize='none'
+      />
       <TextInput
         style={ styles.input }
         placeholder='Email'
@@ -28,24 +38,21 @@ export default function Login(){
         secureTextEntry
       />
       <TouchableOpacity style={ styles.button } onPress={ handleLogin }>
-        <Text style={ styles.buttonText }>Login</Text>
+        <Text style={ styles.buttonText }>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={ () => router.push('/(auth)/register') }>
-        <Text style={ styles.link }>Don't have an account? Register</Text>
+      <TouchableOpacity onPress={ () => router.push('/(auth)/login') }>
+        <Text style={ styles.link }>Have an account? Login Instead</Text>
       </TouchableOpacity>
       <View style={ styles.socialLoginContainer }>
         <TouchableOpacity style={ styles.socialButton }>
           <Image source={ require('@/assets/images/google.webp') } style={ styles.socialIcon } />
-          <Text style={ styles.socialButtonText }>Login with Google</Text>
+          <Text style={ styles.socialButtonText }>Continue with Google</Text>
            </TouchableOpacity>
            <TouchableOpacity style={ styles.socialButton }>
               <Image source={ require('@/assets/images/facebook.png') } style={ styles.socialIcon } />
-              <Text style={ styles.socialButtonText }>Login with Facebook</Text>
+              <Text style={ styles.socialButtonText }>Continue with Facebook</Text>
             </TouchableOpacity>
        </View>
-      <TouchableOpacity onPress={ () => router.push('/(auth)/forgot-password') }>
-        <Text style={ styles.link }>Forgot Password?</Text>
-      </TouchableOpacity>
      </View>
   )
 }
