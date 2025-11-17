@@ -1,11 +1,14 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const connectDB = require('../lib/db');
 
 require('dotenv').config();
 
 // REGISTER USER
 const register = async (req, res) => {
+  await connectDB();
+  
   const { username, password, email } = req.body;
 
   // Validate required fields
@@ -69,6 +72,8 @@ const register = async (req, res) => {
 
 // LOGIN USER
 const login = async (req, res) => {
+  await connectDB();
+  
   const { username, password } = req.body;
 
   if (!username || !password) {

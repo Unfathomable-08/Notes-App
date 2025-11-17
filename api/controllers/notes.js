@@ -1,10 +1,13 @@
 const Note = require('../models/notes');
-const jwt = require('jsonwebtoken');
+const connectDB = require('../lib/db')
+
 require('dotenv').config();
 
 // GET ALL NOTES (for authenticated user only)
 const getNotes = async (req, res) => {
   try {
+    await connectDB()
+    
     // req.user is set by auth middleware
     const notes = await Note.find({ userId: req.user.id }).sort({ createdAt: -1 });
 
@@ -25,6 +28,8 @@ const getNotes = async (req, res) => {
 
 // CREATE A NEW NOTE
 const createNote = async (req, res) => {
+  await connectDB()
+  
   const { title, content } = req.body;
 
   if (!title?.trim() || !content?.trim()) {
@@ -58,6 +63,8 @@ const createNote = async (req, res) => {
 
 // UPDATE A NOTE (only if it belongs to the user)
 const updateNote = async (req, res) => {
+  await connectDB()
+  
   const { id } = req.params;
   const updates = req.body;
 
@@ -100,6 +107,8 @@ const updateNote = async (req, res) => {
 
 // DELETE A NOTE (only if it belongs to the user)
 const deleteNote = async (req, res) => {
+  await connectDB()
+  
   const { id } = req.params;
 
   try {
