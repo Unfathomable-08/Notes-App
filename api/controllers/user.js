@@ -74,18 +74,18 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   await connectDB();
   
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !password) {
+  if (!email || !password) {
     return res.status(400).json({
       success: false,
-      message: 'Please provide username and password',
+      message: 'Please provide email and password',
     });
   }
 
   try {
-    // Find user by username
-    const user = await User.findOne({ username });
+    // Find user by email
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -113,7 +113,7 @@ const login = async (req, res) => {
       token,
       data: {
         _id: user._id,
-        username: user.username,
+        email: user.email,
         email: user.email,
       },
     });

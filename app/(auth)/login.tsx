@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import { useRouter } from 'expo-router'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Login(){
   const [email, setEmail] = useState('')
@@ -21,7 +22,8 @@ export default function Login(){
 
       if (response.data.success){
         const token = response.data.token
-        localStorage.setItem('token', token)
+
+        await AsyncStorage.setItem('userToken', token);
         
         console.log(response.data)
         router.push('/')

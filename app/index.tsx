@@ -1,9 +1,24 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import postItImage from "@/assets/images/post-it.png";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Notes() {
   const router = useRouter()
+
+  const handleGetStarted = async () => {
+    try {
+      const token = await AsyncStorage.getItem("userToken");
+      if (token) {
+        router.push("/notes");
+      } else {
+        router.push("/(auth)/login");
+      }
+    } catch (error) {
+      console.error("Error checking token:", error);
+      router.push("/(auth)/login");
+    }
+  };
 
   return (
     <View
@@ -14,7 +29,7 @@ export default function Notes() {
       <Text style={ styles.subheading }>Capture your thoughts anytime, anywhere</Text>
       <TouchableOpacity 
          style={ styles.button }
-         onPress={() => router.push('/(auth)/login')}
+         onPress={handleGetStarted}
       >
         <Text style={ styles.buttonText } >Get Statrted</Text>
       </TouchableOpacity>
