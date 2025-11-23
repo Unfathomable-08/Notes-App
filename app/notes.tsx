@@ -9,6 +9,7 @@ export default function Index() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [selectedNote, setSelectedNote] = useState(null)
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -59,7 +60,10 @@ export default function Index() {
       <FlatList
         data={notes}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.note}>
+          <TouchableOpacity 
+            style={styles.note} 
+            onPress={() => setSelectedNote(item)}
+          >
             <Text style={styles.noteTitle}>{item.title}</Text>
             <Ionicons name="chevron-forward" size={24} color="#666" />
           </TouchableOpacity>
@@ -113,6 +117,25 @@ export default function Index() {
           </View>
         </View>
       </Modal>
+
+      {selectedNote && 
+        <Modal
+          visible={!!selectedNote}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setSelectedNote(null)}
+        >
+          <View style={ styles.modalContainer }>
+            <View style={ styles.modalContent }>
+              <Text style={ styles.modalTitle }>{selectedNote.title}</Text>
+              <Text>{selectedNote.content}</Text>
+              <TouchableOpacity style={ styles.modalButton } onPress={() => setSelectedNote(null)}>
+                <Text style={{ color: '#fff' }}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      }
     </View>
   );
 }
