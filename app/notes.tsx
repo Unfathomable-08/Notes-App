@@ -20,6 +20,7 @@ export default function Index() {
             Authorization: `Bearer ${token}`
           }
         })
+        console.log(response.data.data)
         setNotes(response.data.data)
       } catch (error) {
         console.error(error)
@@ -45,6 +46,8 @@ export default function Index() {
       setTitle('')
       setContent('')
       setIsModalVisible(false)
+    } catch (err) {
+      console.log(err)
     }
   }
   
@@ -61,7 +64,7 @@ export default function Index() {
             <Ionicons name="chevron-forward" size={24} color="#666" />
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => item?._id ?? index.toString()}
         contentContainerStyle={ styles.list }
         showsVerticalScrollIndicator={false}
         />
