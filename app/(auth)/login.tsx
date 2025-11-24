@@ -15,7 +15,7 @@ export default function Login(){
   const handleLogin = async () => {
     try {
       setLoading(true)
-      const response = await axios.post('http://localhost:8080/api/user/login', {
+      const response = await axios.post('https://notes-app-backend-node-express.vercel.app/api/user/login', {
         email,
         password
       })

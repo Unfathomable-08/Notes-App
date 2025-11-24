@@ -32,7 +32,7 @@ export default function Index() {
   const fetchNotes = async () => {
     try {
       const token = await AsyncStorage.getItem("userToken");
-      const response = await axios.get("http://localhost:8080/api/notes", {
+      const response = await axios.get("https://notes-app-backend-node-express.vercel.app/api/notes", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotes(response.data.data);
@@ -71,7 +71,7 @@ export default function Index() {
       if (isEditing) {
         // Update existing note
         const response = await axios.put(
-          `http://localhost:8080/api/notes/${editingNoteId}`,
+          `https://notes-app-backend-node-express.vercel.app/api/notes/${editingNoteId}`,
           { title, content },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -80,7 +80,7 @@ export default function Index() {
       } else {
         // Create new note
         const response = await axios.post(
-          "http://localhost:8080/api/notes",
+          "https://notes-app-backend-node-express.vercel.app/api/notes",
           { title, content },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -102,7 +102,7 @@ export default function Index() {
   const deleteNote = async (id) => {
       try {
         const token = await AsyncStorage.getItem("userToken");
-        await axios.delete(`http://localhost:8080/api/notes/${id}`, {
+        await axios.delete(`https://notes-app-backend-node-express.vercel.app/api/notes/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setNotes(notes.filter((n) => n._id !== id));
