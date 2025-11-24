@@ -19,9 +19,7 @@ export default function RootLayout() {
      >
         <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} /> }} />
         <Tabs.Screen name="notes" options={{ title: 'Notes', tabBarIcon: ({ color }) => <Ionicons name="document-text" size={24} color={color} /> }} />
-        <Tabs.Screen name="setting" options={{ title: 'Settings', tabBarIcon: ({ color }) => <Ionicons name="settings" size={24} color={color} /> }} />
 
-        <Tabs.Screen name="[id]" options={{ href: null }} />
         <Tabs.Screen name="(auth)" options={{ href: null }} />
         <Tabs.Screen name="(auth)/login" options={{ href: null }} />
      </Tabs>
